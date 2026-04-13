@@ -1,0 +1,71 @@
+openapi: 3.1.0
+info:
+  title: User API
+  version: 1.0.0
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: https://api.users.internal
+security:
+  - {}
+paths:
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+  /users:
+    post:
+      summary: Create a user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          readOnly: true
+          x-brand: UserId
+        name:
+          type: string
+        score:
+          type: number
+          readOnly: true
+          x-brand: UserScore
+        tag:
+          type: string
+          x-brand: UserTag
